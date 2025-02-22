@@ -13,4 +13,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 This is my template file for auth in nextjs. Only includes signin with github. /account page is blocked using middleware.
 
 db: prisma
+
 auth: better-auth
