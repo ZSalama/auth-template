@@ -1,6 +1,4 @@
 'use client'
-
-import { useState } from 'react'
 import { signIn, signOut } from '@/lib/auth-client'
 
 export default function Home() {
@@ -17,7 +15,8 @@ export default function Home() {
 
     return (
         <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100'>
-            <button onClick={() => signIn()}>Sign in with GitHub</button>
+            <button onClick={() => signIn()}>Sign in with Google</button>
+
             <button onClick={() => signOut()}>Sign out</button>
             <button onClick={test}>test API</button>
         </div>

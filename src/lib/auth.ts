@@ -33,10 +33,9 @@ export const auth = betterAuth({
         provider: 'postgresql', // or "mysql", "postgresql", ...etc
     }),
     socialProviders: {
-        github: {
-            clientId: process.env.GITHUB_CLIENT_ID as string,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-            callbackUrl: process.env.GITHUB_CALLBACK_URL,
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         },
     },
     plugins: [nextCookies()],
