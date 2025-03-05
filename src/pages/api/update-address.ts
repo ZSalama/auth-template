@@ -24,14 +24,14 @@ export default async function handler(
     }
 
     try {
-        const updatedUser = await prisma.user.update({
-            where: { id: userId },
-            data: { street, city, state, zip: zipCode, country },
-        })
+        // const updatedUser = await prisma.user.update({
+        //     where: { id: userId },
+        //     data: { street, city, state, zip: zipCode, country },
+        // })
 
         return res.status(200).json({
             message: 'Address updated successfully',
-            user: updatedUser,
+            // user: updatedUser,
         })
     } catch (error) {
         console.error('Error updating address:', error)

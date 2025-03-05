@@ -11,5 +11,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/account'], // Specify the routes the middleware applies to
+    matcher: ['/account', '/account/address'], // Specify the routes the middleware applies to
 }

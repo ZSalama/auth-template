@@ -1,26 +1,28 @@
 import { PrismaClient } from '@prisma/client'
-import { auth } from '@/lib/auth'
-import { headers } from 'next/headers'
-import { Suspense } from 'react'
-import Loading from '@/components/Loading'
+import { cookies } from 'next/headers'
 
 const prisma = new PrismaClient()
 
-async function FetchAddress() {
-    // Get the user's session
-    const session = await auth.api.getSession({
-        headers: await headers(), // you need to pass the headers object.
+export const revalidate = 60 // Page regenerates every 60 seconds
+
+export default async function Address() {
+    //get auth cookie from user
+
+    const userCookies = await cookies()
+    const userId = userCookies.get('better-auth.session_token')?.value
+    if (!userId) return <div>User session not found</div>
+    const newUserId = userId.split('.')[0] //split cookie to get session token to match in db
+
+    // get user ID from session token
+    const session = await prisma.session.findUnique({
+        where: { token: newUserId },
     })
-    if (!session) {
-        return <div>User session not found</div>
-    }
+    if (!session) return <div>User session not found</div>
+
+    // get user address from user ID
     const response = await prisma.address.findFirst({
-        where: {
-            userId: session.user.id,
-        },
-        orderBy: {
-            createdAt: 'desc',
-        },
+        where: { userId: session.userId },
+        orderBy: { createdAt: 'desc' },
     })
 
     return (
@@ -32,13 +34,5 @@ async function FetchAddress() {
             <p>zipcode: {response?.zip}</p>
             <p>country: {response?.country}</p>
         </div>
-    )
-}
-
-export default function Address() {
-    return (
-        <Suspense fallback={<Loading />}>
-            <FetchAddress />
-        </Suspense>
     )
 }
