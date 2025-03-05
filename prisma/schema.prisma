@@ -16,16 +16,29 @@ model User {
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
-  street        String?
-  city          String?
-  state         String?
-  zip           String?
-  country       String?
   sessions      Session[]
   accounts      Account[]
 
+  addresses     address[]
+
   @@unique([email])
   @@map("user")
+}
+
+model address {
+
+  id            String @id @default(uuid())
+  name          String
+  street        String
+  city          String
+  state         String
+  zip           String
+  country       String
+  createdAt     DateTime @default(now())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("address")
 }
 
 model Session {
@@ -71,4 +84,12 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model FormSubmission {
+  id        String  @id @default(uuid())
+  name      String
+  email     String  @unique
+  message   String
+  createdAt DateTime @default(now())
 }
